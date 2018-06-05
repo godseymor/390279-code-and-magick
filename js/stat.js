@@ -57,23 +57,14 @@ window.renderStatistics = function (ctx, names, times) {
 
   ctx.fillText('Худшее время: ' + Math.floor(getMaxTime()) + ' ms у игрока ' + names[getWorstPlayerName()], CENTERED_TIME_X, CENTERED_TIME_Y);
 
-  var renderGraphRect = function (y, color) {
-    ctx.fillStyle = color;
+  var renderGraphRect = function (y) {
+    ctx.fillStyle = (names[y] === 'Вы') ? 'rgba(255, 0, 0, 1)' : getRandomOpacity();
     ctx.fillRect(FIRST_BAR_WIDTH + (BAR_INDENT + SINGLE_BAR_WIDTH) * y, FIRST_BAR_Y, SINGLE_BAR_WIDTH, -(times[y] * BAR_CHART_HEIGHT / getMaxTime()));
-  };
-
-  var renderGraphText = function (y, color) {
-    ctx.fillStyle = color;
+    ctx.fillStyle = (names[y] === 'Вы') ? 'rgba(255, 0, 0, 1)' : 'rgba(0, 0, 0, 1)';
     ctx.fillText(names[y], FIRST_BAR_WIDTH + (BAR_INDENT + SINGLE_BAR_WIDTH) * y, CLOUD_HEIGHT - INITIAL_Y);
   };
 
   for (var y = 0; y < names.length; y++) {
-    if (names[y] === 'Вы') {
-      renderGraphRect(y, 'rgba(255, 0, 0, 1)');
-      renderGraphText(y, 'rgba(255, 0, 0, 1)');
-    } else {
-      renderGraphRect(y, getRandomOpacity());
-      renderGraphText(y, 'rgba(0, 0, 0, 1)');
-    }
+    renderGraphRect(y);
   }
 };
