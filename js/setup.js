@@ -4,8 +4,25 @@ var WIZARD_NAMES = ['Иван', 'Хуан Сьебастьян', 'Мария', '
 var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var WIZARD_COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var WIZARD_EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
+var WIZARD_FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var WIZARDS_COUNT = 4;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var wizards = [];
+
+// MODULE4-TASK1 VARIABLES START
+
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = document.querySelector('.setup-close');
+var setup = document.querySelector('.setup');
+var setupUserName = document.querySelector('.setup-user-name');
+var popupInputName = false;
+
+var setupWizardCoat = setup.querySelector('.wizard-coat');
+var setupWizardEyes = setup.querySelector('.wizard-eyes');
+var setupWizardFireball = setup.querySelector('.setup-fireball-wrap');
+
+// MODULE4-TASK1 VARIABLES END
 
 document.querySelector('.setup').classList.remove('hidden');
 
@@ -52,3 +69,72 @@ var appendWizard = function () {
 appendWizard();
 
 document.querySelector('.setup-similar').classList.remove('hidden');
+
+// MODULE4-TASK1 START
+
+var onPopupEscPress = function (evt) {
+  onPopupInputNameFocus();
+  if (evt.keyCode === ESC_KEYCODE && !popupInputName) {
+    closePopup();
+  }
+};
+
+var onPopupInputNameFocus = function () {
+  setupUserName.addEventListener('focus', function () {
+    popupInputName = true;
+  });
+  setupUserName.addEventListener('blur', function () {
+    popupInputName = false;
+  });
+};
+
+var openPopup = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
+
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openPopup();
+  }
+});
+
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePopup();
+  }
+});
+
+var clickCustomizer = function (setupElement, color) {
+  if (setupElement !== setupWizardFireball) {
+    setupElement.style.fill = color[getRandomItem(color)];
+  }
+  setupElement.style.background = color[getRandomItem(color)];
+};
+
+setupWizardCoat.addEventListener('click', function () {
+  clickCustomizer(setupWizardCoat, WIZARD_COAT_COLOR);
+});
+
+setupWizardEyes.addEventListener('click', function () {
+  clickCustomizer(setupWizardEyes, WIZARD_EYES_COLOR);
+});
+
+setupWizardFireball.addEventListener('click', function () {
+  clickCustomizer(setupWizardFireball, WIZARD_FIREBALL_COLOR);
+});
+
+// MODULE4-TASK1 END
