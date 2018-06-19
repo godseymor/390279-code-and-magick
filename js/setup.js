@@ -167,6 +167,7 @@ setupHandle.addEventListener('mousedown', function (evt) {
 
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
+    dragged = true;
 
     var shift = {
       x: startCoords.x - moveEvt.clientX,
@@ -189,8 +190,8 @@ setupHandle.addEventListener('mousedown', function (evt) {
     document.removeEventListener('mouseup', onMouseUp);
 
     if (dragged) {
-      var onClickPreventDefalt = function () {
-        evt.preventDefault();
+      var onClickPreventDefalt = function (e) {
+        e.preventDefault();
         setupHandle.removeEventListener('click', onClickPreventDefalt);
       };
       setupHandle.addEventListener('click', onClickPreventDefalt);
